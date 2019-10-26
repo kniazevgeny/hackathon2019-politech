@@ -3,7 +3,7 @@
     v-app-bar(flat app)
       // Title
       v-toolbar-title.text-uppercase.grey--text
-        v-img(src="assets/logo.png")
+        img(src="assets/logo.png")
       v-spacer
       // Dark mode
       v-btn(text icon color='grey' @click='toggleMode')

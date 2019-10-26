@@ -31,7 +31,7 @@ router.beforeEach((to, _, next) => {
     next('/')
   } else {
     if (to.path === '/' && user) {
-      next('/cabinet')
+      next('/profile')
     } else {
       next()
     }

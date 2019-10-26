@@ -10,7 +10,7 @@
         p {{$t('home.rules.register')}}
         p {{$t('home.rules.money')}}
         p {{$t('home.rules.success')}}
-        v-btn(@click='onTmpRequest("semyonpidor")')
+        v-btn(@click='return TWidgetLogin.auth();')
             span {{$t('home.req')}}
 
       v-flex.pt-4
@@ -32,6 +32,8 @@
         .caption
           router-link(to='/privacy') {{ $t('home.privacy') }}
 </template>
+
+<script async src="https://telegram.org/js/telegram-widget.js?7" data-telegram-login="politexbot" data-size="large" data-radius="17" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
 
 <script lang="ts">
 import Vue from "vue";
@@ -60,7 +62,7 @@ export default class Home extends Vue {
       try {
         const user = await loginFacebook(response.authResponse.accessToken);
         store.setUser(user);
-        this.$router.replace("app");
+        //this.$router.replace("app");
       } catch (err) {
         store.setSnackbar({
           message: "errors.facebook",
@@ -81,7 +83,7 @@ export default class Home extends Vue {
     try {
       const user = await loginGoogle(googleUser.getAuthResponse().id_token);
       store.setUser(user);
-      this.$router.replace("cabinet");
+      //this.$router.replace("cabinet");
     } catch (err) {
       store.setSnackbar({
         message: "errors.google",
@@ -99,30 +101,36 @@ export default class Home extends Vue {
   }
   async onTelegramAuth(loginInfo: any) {
     try {
-      const user = await loginTelegram(loginInfo);
-      store.setUser(user);
-      this.$router.replace("cabinet");
-    } catch (err) {
-      store.setSnackbar({
-        message: "errors.telegram",
-        color: "error",
-        active: true
-      });
-    }
-  }
-  async onTmpRequest(loginInfo: any) {
-    try {
+      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username", 
+      photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);
       //this.$router.replace("cabinet");
     } catch (err) {
+      console.log(err);
       store.setSnackbar({
-        message: "errors.tmp",
+        message: err.message,
         color: "error",
         active: true
       });
-    }
+    };
   }
+  async onTmpRequest(loginInfo: any) {
+    try {
+      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username", 
+      photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
+      const user = await tmprequest(loginInfo);
+      store.setUser(user);
+      //this.$router.replace("cabinet");
+    } catch (err) {
+      console.log(err);
+      store.setSnackbar({
+        message: err.message,
+        color: "error",
+        active: true
+      });
+    };
+  };
 }
 </script>
 
