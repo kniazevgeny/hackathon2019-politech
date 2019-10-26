@@ -2,12 +2,21 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "postinstall": "npm run build",
+  "start": "node server.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+
+    "capacitor-copy": "vue-cli-service capacitor-copy",
+    "capacitor-init": "vue-cli-service capacitor-init",
+    "capacitor-open": "vue-cli-service capacitor-open",
+    "capacitor-update": "vue-cli-service capacitor-update",
     "distribute": "vue-cli-service serve --mode development"
   },
   "dependencies": {
+    "@capacitor/cli": "^1.0.0-alpha.38",
+    "@capacitor/core": "^1.0.0-alpha.38",
     "@types/node": "^12.7.3",
     "axios": "^0.19.0",
     "pug": "^2.0.3",
@@ -28,9 +37,12 @@
   "devDependencies": {
     "@vue/cli-plugin-typescript": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
+    "express": "^4.17.1",
     "sass": "^1.22.10",
     "sass-loader": "^8.0.0",
+    "serve-static": "^1.14.1",
     "typescript": "^3.6.2",
+    "vue-cli-plugin-pwa": "^1.0.0-alpha.1",
     "vue-template-compiler": "^2.5.21"
   },
   "postcss": {
