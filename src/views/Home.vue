@@ -10,15 +10,15 @@
         p {{$t('home.rules.register')}}
         p {{$t('home.rules.money')}}
         p {{$t('home.rules.success')}}
-        v-btn(@click='return TWidgetLogin.auth();')
+        v-btn(class="tgme_widget_login_button" @click='tg.TWidgetLogin.auth()')
             span {{$t('home.req')}}
 
       v-flex.pt-4
-        vue-telegram-login(mode='callback'
-        telegram-login='mamkintrade_bot'
-        @callback='onTelegramAuth'
-        radius='3'
-        :userpic='false')
+        vueTelegramLogin(mode='callback'
+        telegram-login='politexbot'
+        @callback='onTelegramAuth(user)'
+        radius='17'
+        :userpic='true')
         g-signin-button(:params='{ client_id: googleClientId }'
         @success='onGoogleSignInSuccess'
         @error='onGoogleSignInError') {{$t("home.google")}}
@@ -31,10 +31,9 @@
       v-flex.pt-4
         .caption
           router-link(to='/privacy') {{ $t('home.privacy') }}
+
 </template>
-
 <script async src="https://telegram.org/js/telegram-widget.js?7" data-telegram-login="politexbot" data-size="large" data-radius="17" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
-
 <script lang="ts">
 import Vue from "vue";
 import axios from "axios";
@@ -42,7 +41,8 @@ import { loginFacebook, loginTelegram, loginGoogle, tmprequest } from "../utils/
 import * as store from "../plugins/store";
 import Component from "vue-class-component";
 import { i18n } from "../plugins/i18n";
-const { vueTelegramLogin } = require("vue-telegram-login");
+import * as tg from "../plugins/telegram-widget.js";
+const vueTelegramLogin = require('vue-telegram-login');
 
 // FB object is global, declaring here for TS
 declare const FB: any;
@@ -101,7 +101,7 @@ export default class Home extends Vue {
   }
   async onTelegramAuth(loginInfo: any) {
     try {
-      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username", 
+      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username",
       photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);
@@ -117,7 +117,7 @@ export default class Home extends Vue {
   }
   async onTmpRequest(loginInfo: any) {
     try {
-      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username", 
+      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username",
       photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);
