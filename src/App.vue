@@ -1,12 +1,12 @@
 <template lang="pug">
-  v-app(:dark='$store.state.dark' :class='$store.state.dark ? "grey darken-4" : "grey lighten-4"')
+  v-app(:dark='$store.state.dark' :class='$store.state.dark ? "grey darken-6" : "grey lighten-6"')
     cookie-law(theme='blood-orange'
     :buttonText='$t("cookieButton")'
     :message='$t("cookieMessage")')
-    Navbar
-    Snackbar
     v-content
+      Navbar
       router-view
+    Snackbar
 </template>
 
 <script lang="ts">
@@ -19,3 +19,16 @@ export default {
   components: { Navbar, Snackbar, CookieLaw }
 };
 </script>
+<style>
+@font-face {
+  font-family: 'UniSans';
+  src:  url('/static/unisans-medium.otf')
+}
+
+@font-face {
+  font-family: 'UniSans';
+  src:  url('/static/unisans-bold.otf')
+}
+
+</style>
+  

@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "postinstall": "npm run build",
   "start": "node server.js",
@@ -23,8 +23,6 @@
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-cookie-law": "^1.10.0",
-    "vue-facebook-signin-button": "^1.0.1",
-    "vue-google-signin-button": "^1.0.2",
     "vue-i18n": "^8.14.0",
     "vue-property-decorator": "^8.2.2",
     "vue-router": "^3.1.3",

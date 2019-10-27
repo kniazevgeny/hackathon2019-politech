@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home.vue'
 import Profile from '../views/Profile.vue'
+import Searche from '../views/Search.vue'
 import { store } from './store'
 
 Vue.use(Router)
@@ -11,7 +12,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '/i',
       name: 'home',
       component: Home,
     },
@@ -19,6 +20,11 @@ const router = new Router({
       path: '*',
       name: 'profile',
       component: Profile,
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Searche,
     },
   ],
 })

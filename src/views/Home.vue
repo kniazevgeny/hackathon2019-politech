@@ -10,7 +10,7 @@
         p {{$t('home.rules.register')}}
         p {{$t('home.rules.money')}}
         p {{$t('home.rules.success')}}
-        v-btn(class="tgme_widget_login_button" @click='tg.TWidgetLogin.auth()')
+        v-btn(@click='onTmpRequest("s")')
             span {{$t('home.req')}}
 
       v-flex.pt-4
@@ -19,20 +19,12 @@
         @callback='onTelegramAuth(user)'
         radius='17'
         :userpic='true')
-        g-signin-button(:params='{ client_id: googleClientId }'
-        @success='onGoogleSignInSuccess'
-        @error='onGoogleSignInError') {{$t("home.google")}}
-        fb-signin-button(:params='{ scope: "email", return_scopes: true}'
-        @success='onFacebookSignInSuccess'
-        @error='onFacebookSignInError') {{$t('home.facebook')}}
-        .vk-signin-button(@click.stop='vkDialog = true') {{$t('home.vk')}}
-        .api-signin-button(@click.stop='keyDialog = true') {{$t('home.key')}}
-
-      v-flex.pt-4
-        .caption
-          router-link(to='/privacy') {{ $t('home.privacy') }}
 
 </template>
+      // - v-flex.pt-4
+      // -   .caption
+      // -     router-link(to='/privacy') {{ //$t('home.privacy') }}
+<script src="https://unpkg.com/vue-telegram-login"></script>
 <script async src="https://telegram.org/js/telegram-widget.js?7" data-telegram-login="politexbot" data-size="large" data-radius="17" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
 <script lang="ts">
 import Vue from "vue";
@@ -41,11 +33,12 @@ import { loginFacebook, loginTelegram, loginGoogle, tmprequest } from "../utils/
 import * as store from "../plugins/store";
 import Component from "vue-class-component";
 import { i18n } from "../plugins/i18n";
-import * as tg from "../plugins/telegram-widget.js";
-const vueTelegramLogin = require('vue-telegram-login');
-
+//import * as tg from "../plugins/telegram-widget.js";
+//const vueTelegramLogin = require("vue-telegram-login");
+const vueTelegramLogin = () => require("vue-telegram-login");
 // FB object is global, declaring here for TS
 declare const FB: any;
+
 
 @Component({
   components: {
@@ -121,6 +114,12 @@ export default class Home extends Vue {
       photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);
+      console.log(user);
+      store.setSnackbar({
+        message: user.uniqueid,
+        color: "error",
+        active: true
+      });
       //this.$router.replace("cabinet");
     } catch (err) {
       console.log(err);

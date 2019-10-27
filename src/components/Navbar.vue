@@ -1,31 +1,62 @@
-<template lang="pug" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  nav
-    v-app-bar(flat app)
-      // Title
-      v-toolbar-title.text-uppercase.grey--text
-        img(src="assets/logo.png")
-      v-spacer
-      // Dark mode
-      v-btn(text icon color='grey' @click='toggleMode')
-        v-icon(small) brightness_2
-      // Language picker
-      v-menu(offset-y)
-        template(v-slot:activator='{ on }')
-          v-btn(text icon color='grey' v-on='on') {{currentLocale.icon}}
-        v-list
-          v-list-item(v-for='locale in locales' @click='changeLanguage(locale.code)' :key="locale.code")
-            v-list-item-title {{locale.icon}}
+<template lang="vue">
+<v-navigation-drawer permanent app
+    dark
+    floating
+    persistent>
+    <v-card flat style="height: 10em"></v-card>
+    <v-list
+      dense
+      nav
+    >
+      <v-list-item
+        v-for="item in items"
+        :key="item.title"
+        link
+        color='white'
+        :to="item.to"
+        style="text-decoration: none"
+      >
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-menu offset-y>
+        <template v-slot:activator='{ on }'>
+          <v-btn text icon color='grey' v-on='on'>{{currentLocale.icon}}</v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for='locale in locales' @click='changeLanguage(locale.code)' :key="locale.code">
+            <v-list-item-title>{{locale.icon}}</v-list-item-title>
+          </v-list-item>
+        </v-list>  
+      </v-menu>
+      <v-btn text color='gray' @click='toggleMode'><v-icon small>brightness_2</v-icon></v-btn>
+    </v-list>
+  </v-navigation-drawer>
 </template>
-
 <script lang="ts">
 import Vue from "vue";
 import Component from "vue-class-component";
 import * as store from "../plugins/store";
 import { i18n } from "../plugins/i18n";
-import * as api from "../utils/api";
+import * as api from "../utils/api"
 
 @Component
 export default class Navbar extends Vue {
+  data () {
+    return {
+      items: [
+        { title: 'Профиль', to: '/profile', icon: 'account_circle'},
+        { title: 'Поиск', to: '/search', icon: 'search'},
+        { title: 'Для вас', to: '/i', icon: 'face'},
+        { title: 'Настройки', to: '/settings', icon: 'settings_applications'}
+      ],
+      right: null,
+    }
+  }
   get locales() {
     return [{ icon: "🇺🇸", code: "en" }, { icon: "🇷🇺", code: "ru" }];
   }
@@ -64,6 +95,13 @@ nav a:hover {
 
 nav a:active {
   text-decoration: underline;
+}
+.v-list-item{
+  margin-bottom: 1em;
+}
+.v-list-item__title{
+  font-family: 'UniSans' !important;
+
 }
 </style>
 

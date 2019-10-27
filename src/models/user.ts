@@ -1,9 +1,9 @@
 export interface User {
-  _id: string
-  email?: string
-  facebookId?: string
-  telegramId?: string
-  vkId?: string
-
-  token?: string
-}
+  auth: boolean
+  uniqueid: string
+  name: string
+  token: string
+  photourl: string
+  [favourites: number]: any
+  busy: boolean
+  }
