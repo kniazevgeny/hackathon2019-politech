@@ -1,8 +1,10 @@
 // Dependencies
 import axios from 'axios'
 import { User } from '../models/user'
+import { store } from '../plugins/store'
 
-const base = 'http://10.0.1.10:8080'
+
+let base = store.state.apiuri
 
 export async function loginFacebook(accessToken: string) {
   return (await axios.post(`${base}/login/facebook`, {
@@ -21,10 +23,12 @@ export async function loginTelegram(loginInfo: any) {
 }
 
 export async function tmprequest(loginInfo: any) {
+  base = store.state.apiuri
   return (await axios.post(`${base}/auth`, loginInfo)).data as User
 }
 
 export async function ssearch(srch: any) {
+  base = store.state.apiuri
   return (await axios.post(`${base}/search`, srch))
 }
 

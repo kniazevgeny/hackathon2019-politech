@@ -10,15 +10,26 @@
         p {{$t('home.rules.register')}}
         p {{$t('home.rules.money')}}
         p {{$t('home.rules.success')}}
+        v-text-field(
+          label="API base"
+          outlined
+          rows="1"
+          row-height="15"
+          v-model="$store.state.apiuri"
+          filled
+          @keyup.enter="onTmpRequest('s')"
+      )
         v-btn(@click='onTmpRequest("s")')
             span {{$t('home.req')}}
+      
 
-      v-flex.pt-4
-        vueTelegramLogin(mode='callback'
-        telegram-login='politexbot'
-        @callback='onTelegramAuth(user)'
-        radius='17'
-        :userpic='true')
+
+        v-flex.pt-4
+          vueTelegramLogin(mode='callback'
+          telegram-login='politexbot'
+          @callback='onTelegramAuth(user)'
+          radius='17'
+          :userpic='true')
 
 </template>
       // - v-flex.pt-4
@@ -46,55 +57,14 @@ declare const FB: any;
   }
 })
 export default class Home extends Vue {
-  get googleClientId() {
-    return "906458427314-vrgseuf6gsroa41l88005jqko24g8shs.apps.googleusercontent.com";
-  }
-
-  onFacebookSignInSuccess(response: any) {
-    FB.api("/me", async (dude: any) => {
-      try {
-        const user = await loginFacebook(response.authResponse.accessToken);
-        store.setUser(user);
-        //this.$router.replace("app");
-      } catch (err) {
-        store.setSnackbar({
-          message: "errors.facebook",
-          color: "error",
-          active: true
-        });
-      }
-    });
-  }
-  onFacebookSignInError(error: Error) {
-    store.setSnackbar({
-      message: "errors.facebook",
-      color: "error",
-      active: true
-    });
-  }
-  async onGoogleSignInSuccess(googleUser: any) {
-    try {
-      const user = await loginGoogle(googleUser.getAuthResponse().id_token);
-      store.setUser(user);
-      //this.$router.replace("cabinet");
-    } catch (err) {
-      store.setSnackbar({
-        message: "errors.google",
-        color: "error",
-        active: true
-      });
+  data () {
+    return {
+      apiuri: ""
     }
-  }
-  onGoogleSignInError(error: Error) {
-    store.setSnackbar({
-      message: "errors.google",
-      color: "error",
-      active: true
-    });
   }
   async onTelegramAuth(loginInfo: any) {
     try {
-      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username",
+      loginInfo = {id: "thisisuserid", first_name: "first_name", last_name: "last_name", username: "username",
       photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);
@@ -105,12 +75,13 @@ export default class Home extends Vue {
         message: err.message,
         color: "error",
         active: true
+        //<!-- --------- - -->
       });
     };
   }
   async onTmpRequest(loginInfo: any) {
     try {
-      loginInfo = {id: "id", first_name: "first_name", last_name: "last_name", username: "username",
+      loginInfo = {id: "thisisuserid", first_name: "first_name", last_name: "last_name", username: "username",
       photo_url: "photo_url", auth_date: "auth_date", hash: "hash"};
       const user = await tmprequest(loginInfo);
       store.setUser(user);

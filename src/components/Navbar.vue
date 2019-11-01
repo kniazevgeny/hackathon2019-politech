@@ -20,7 +20,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title>{{$t(item.title)}}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-menu offset-y>
@@ -49,10 +49,10 @@ export default class Navbar extends Vue {
   data () {
     return {
       items: [
-        { title: 'Профиль', to: '/profile', icon: 'account_circle'},
-        { title: 'Поиск', to: '/search', icon: 'search'},
-        { title: 'Для вас', to: '/i', icon: 'face'},
-        { title: 'Настройки', to: '/settings', icon: 'settings_applications'}
+        { title: 'navbar.profile', to: '/profile', icon: 'account_circle'},
+        { title: 'navbar.search', to: '/search', icon: 'search'},
+        { title: 'navbar.foryou', to: '/', icon: 'face'},
+        { title: 'navbar.settings', to: '/settings', icon: 'settings_applications'}
       ],
       right: null,
     }

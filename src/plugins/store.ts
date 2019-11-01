@@ -11,6 +11,7 @@ export interface State {
   snackbar: SnackbarState
   language?: String
   dark: Boolean
+  apiuri?: String
 }
 
 interface LocalizedError {
@@ -34,6 +35,7 @@ const storeOptions = {
     },
     language: undefined,
     dark: false,
+    apiuri: ''
   },
   mutations: {
     setUser(state: State, user: User) {
@@ -51,12 +53,16 @@ const storeOptions = {
     setDark(state: State, dark: Boolean) {
       state.dark = dark
     },
+    setAPI(state: State, apiuri: String){
+      state.apiuri = apiuri
+    }
   },
   getters: {
     user: (state: State) => state.user,
     snackbar: (state: State) => state.snackbar,
     language: (state: State) => state.language,
     dark: (state: State) => state.dark,
+    apiuri: (state: State) => state.apiuri,
   },
   plugins: [createPersistedState()],
 }
@@ -70,6 +76,7 @@ export const user = () => getters.user as User | undefined
 export const snackbar = () => getters.snackbar as SnackbarState
 export const language = () => getters.language as string | undefined
 export const dark = () => getters.dark as boolean
+export const apiuri = () => getters.apiuri as string | undefined
 
 // Mutations
 export const setUser = (user: User) => {
@@ -86,4 +93,7 @@ export const setLanguage = (language: String) => {
 }
 export const setDark = (dark: Boolean) => {
   store.commit('setDark', dark)
+}
+export const setAPIuri = (apiuri: String) => {
+  store.commit('setAPIuri', apiuri)
 }

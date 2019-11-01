@@ -1,7 +1,8 @@
 <template lang="vue">
+<v-container class="pa-8">
   <v-layout wrap xs8>
     <v-text-field
-          label="One row"
+          :label="$t('search.sTitle')"
           outlined
           rows="1"
           row-height="15"
@@ -11,57 +12,33 @@
         >
     </v-text-field>
     <v-expansion-panels multiple style="box-shadow: none">
-    <v-expansion-panel
-      v-for="(event, i) in events"
-      :key="i"
-       hide-actions
-       
-    >
-      <v-expansion-panel-header>{{event.title}}</v-expansion-panel-header>
-      <v-expansion-panel-content>
-        <v-layout slot="header" row style="align-items: center">
-          <v-flex xs1></v-flex>
-          <v-flex xs3><a class="date">{{event.date}}</a></v-flex>
-        </v-layout>
-        <v-card>
-          <v-layout wrap>
-            <v-flex xs12>{{event.about}}</v-flex>
-            <br>
-            <div style="justify-content: center">
-              <v-btn class="go" color="#2196F3" dark</v-btn>
-              <v-btn class="notgo" color="#FF5252" dark</v-btn>
-            </div>
-          </v-layout>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
-    <v-expansion-panel expand style="box-shadow: none">
-      <v-expansion-panel-content v-for="(event, i) in events" :key="i" hide-actions>
-        <v-layout slot="header" row style="align-items: center">
-          <v-flex xs8>
-            <span style="font-weight: bold;">{{event.Name}}</span>
-            <span style="font-weight: bold;">{{event.Rating}}</span>
-            </v-flex>
-          <v-flex xs1></v-flex>
-          <v-flex xs3><a class="date">{{event.Id}}</a></v-flex>
-        </v-layout>
-        <v-card>
-          <v-layout wrap>
-            <div v-for="(sk, j) in event.Skills" :key="j" hide-actions>
-              <v-flex xs12>{{sk.About}}</v-flex>
-            </div>
-            <br>
-            <div style="justify-content: center">
-              <v-btn class="go" color="#2196F3" dark</v-btn>
-              <v-btn class="notgo" color="#FF5252" dark</v-btn>
-            </div>
-          </v-layout>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-    {{events}}
+      <v-expansion-panel
+        v-for="(user, i) in users"
+        :key="i"
+        hide-actions
+        
+      >
+        <v-expansion-panel-header>
+          <span style="font-weight: bold;">{{user.Name}}</span>
+          <br>
+          <span style="text-align: right; margin-right: 2em">
+            <span v-for="n in user.Rating">
+              <v-icon style="color: gold">star</v-icon>
+            </span>
+          </span>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <h4>{{$t('search.competences')}}:</h4>
+          <ul v-for="(sk, j) in user.Skills" :key="j">
+            <li>{{sk}}</li>
+          </ul>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    {{users[0].Name}}
+    {{users}}
   </v-layout>
+</v-container>
 </template>
 
 <script>
@@ -77,13 +54,13 @@ export default {
     name: "poll",
     data() {
       return {
-        eventsready: false,
+        usersready: false,
         i: 0,
-        events: [
-          {title: 's', date:'w', about: 'ww', id: 0},
-          {title: 'q', date:'d', about: 'ww', id: 1},
-          {title: 's', date:'f', about: 'ww', id: 2},
-          {title: 'd', date:'f', about: 'ww', id: 3}
+        users: [
+          {Id: '1', Uniqueid:'wtf', Name: 'yoy', Rating: 4, Skills: ["go", "c++"], Favourites: "[2]", Ignored: "[4]", Busy: false},
+          {Id: '2', Uniqueid:'this', Name: 'jeka', Rating: 5, Skills: ["vue", "python"], Favourites: "[3]", Ignored: "[4]", Busy: false},
+          {Id: '3', Uniqueid:'is', Name: 'necromant', Rating: 3, Skills: ["go", "c++"], Favourites: "[4]", Ignored: "[4]", Busy: false},
+          {Id: '4', Uniqueid:'BS', Name: 'lox', Rating: 4, Skills: ["java", "c"], Favourites: "[5]", Ignored: "[4]", Busy: false}
         ],
         sr: ""
       }
@@ -99,8 +76,8 @@ export default {
           // });
           const srInfo = {skills: arr, uniqueid: this.$store.state.user.uniqueid};
           const srr = await api.ssearch(srInfo);
-          this.events = srr.data.users;
-          this.eventsready = true;
+          this.users = srr.data.users;
+          this.usersready = true;
           //this.$router.replace("cabinet");
         } catch (err) {
           store.setSnackbar({
