@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-typescript": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
+    "@vue/cli-service": "^5.0.8",
     "express": "^4.17.1",
     "sass": "^1.22.10",
     "sass-loader": "^8.0.0",
